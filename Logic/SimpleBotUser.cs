@@ -28,7 +28,7 @@ namespace SimpleBot
 
             SetProfile(id, profile);
 
-            return $"{message.User} disse '{message.Text}'";
+            return $"{message.User} disse '{message.Text}' visitas '{profile.Visitas}'";
         }
 
         public static UserProfile GetProfile(string id)
