@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,16 @@ namespace SimpleBot.Data
         public void Insert(UserProfile userProfile)
         {
             col.InsertOne(userProfile);
+        }
+        public void Update(UserProfile userProfile)
+        {
+            var filter = Builders<UserProfile>.Filter.Eq(g => g.Id, userProfile.Id);
+            col.ReplaceOne(filter, userProfile);
+        }
+        public UserProfile Find(string id)
+        {
+            var filter = Builders<UserProfile>.Filter.Eq(g => g.Id, id);
+            return col.Find(filter).First();
         }
     }
 }
