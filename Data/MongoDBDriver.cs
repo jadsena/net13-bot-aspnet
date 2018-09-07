@@ -37,6 +37,9 @@ namespace SimpleBot.Data
         }
         public UserProfile Find(string id)
         {
+            var filter1 = Builders<UserProfile>.Filter.Empty;
+            var reg = col.Count(filter1);
+            if (reg == 0) return null;
             var filter = Builders<UserProfile>.Filter.Eq(g => g.Id, id);
             return col.Find(filter).First();
         }
