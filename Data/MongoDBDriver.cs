@@ -19,6 +19,12 @@ namespace SimpleBot.Data
             db = cliente.GetDatabase("net13");
             col = db.GetCollection<UserProfile>("UserProfile");
         }
+        ~MongoDBDriver()
+        {
+            col = null;
+            db = null;
+            cliente = null;
+        }
         public static MongoDBDriver CriarInstancia()
         {
             if (mongoDBDriver == null)
@@ -43,5 +49,6 @@ namespace SimpleBot.Data
             var filter = Builders<UserProfile>.Filter.Eq(g => g.Id, id);
             return col.Find(filter).First();
         }
+
     }
 }
