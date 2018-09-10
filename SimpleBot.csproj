@@ -141,6 +141,12 @@
     <Compile Include="Logic\Message.cs" />
     <Compile Include="Logic\SimpleBotUser.cs" />
     <Compile Include="Logic\UserProfile.cs" />
+    <Compile Include="Model\IUserProfileRepository.cs" />
+    <Compile Include="Model\UserProfileFactory.cs" />
+    <Compile Include="Model\UserProfileMenRepo.cs" />
+    <Compile Include="Model\UserProfileMongo.cs" />
+    <Compile Include="Model\UserProfileMongoRepo.cs" />
+    <Compile Include="Model\UserProfileSQLServerRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

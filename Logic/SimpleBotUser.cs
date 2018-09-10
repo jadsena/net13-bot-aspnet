@@ -1,15 +1,14 @@
-﻿using MongoDB.Driver;
-using MongoDB.Bson;
-using SimpleBot.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using SimpleBot.Model;
 
 namespace SimpleBot
 {
     public class SimpleBotUser
     {
+        private static IUserProfileRepository userProfileRepository;
+        public SimpleBotUser()
+        {
+            userProfileRepository = UserProfileFactory.GetRepository("mongodb://localhost:27017");
+        }
         public static string Reply(Message message)
         {
             //var client = new MongoClient("mongodb://localhost:27017");
@@ -33,23 +32,25 @@ namespace SimpleBot
 
         public static UserProfile GetProfile(string id)
         {
-            UserProfile profile = MongoDBDriver.CriarInstancia().Find(id);
-            if (profile == null) {
-                MongoDBDriver.CriarInstancia().Insert(new UserProfile()
+            UserProfile profile = userProfileRepository.GetProfile(id);
+            if (profile == null)
+            {
+                SetProfile(id, new UserProfile()
                 {
                     Id = id
                 });
-                profile = MongoDBDriver.CriarInstancia().Find(id);
+                profile = userProfileRepository.GetProfile(id);
             }
             return profile;
         }
 
         public static void SetProfile(string id, UserProfile profile)
         {
-            if (MongoDBDriver.CriarInstancia().Find(profile.Id) == null)
-                MongoDBDriver.CriarInstancia().Insert(profile);
-            else
-                MongoDBDriver.CriarInstancia().Update(profile);
+            //if (MongoDBDriver.CriarInstancia().Find(profile.Id) == null)
+            //    MongoDBDriver.CriarInstancia().Insert(profile);
+            //else
+            //    MongoDBDriver.CriarInstancia().Update(profile);
+            userProfileRepository.SetProfile(id, profile);
         }
     }
 }
