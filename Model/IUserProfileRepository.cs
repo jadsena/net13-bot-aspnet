@@ -10,6 +10,6 @@ namespace SimpleBot.Model
     {
         UserProfile GetProfile(string id);
         void SetProfile(string id, UserProfile profile);
-        //teste
+        //teste2
     }
 }
