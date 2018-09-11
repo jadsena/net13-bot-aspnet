@@ -4,12 +4,19 @@ namespace SimpleBot
 {
     public class SimpleBotUser
     {
-        private static IUserProfileRepository userProfileRepository;
-        public SimpleBotUser()
+        private static SimpleBotUser simpleBotUser;
+        private IUserProfileRepository userProfileRepository;
+        private SimpleBotUser()
         {
-            userProfileRepository = UserProfileFactory.GetRepository("mongodb://localhost:27017");
+            userProfileRepository = UserProfileFactory.GetRepository();
         }
-        public static string Reply(Message message)
+        public static SimpleBotUser Instancia()
+        {
+            if (simpleBotUser == null)
+                simpleBotUser = new SimpleBotUser();
+            return simpleBotUser;
+        }
+        public string Reply(Message message)
         {
             //var client = new MongoClient("mongodb://localhost:27017");
             //var db = client.GetDatabase("db01");
@@ -30,7 +37,7 @@ namespace SimpleBot
             return $"{message.User} disse '{message.Text}' visitas '{profile.Visitas}'";
         }
 
-        public static UserProfile GetProfile(string id)
+        public UserProfile GetProfile(string id)
         {
             UserProfile profile = userProfileRepository.GetProfile(id);
             if (profile == null)
@@ -44,7 +51,7 @@ namespace SimpleBot
             return profile;
         }
 
-        public static void SetProfile(string id, UserProfile profile)
+        public void SetProfile(string id, UserProfile profile)
         {
             //if (MongoDBDriver.CriarInstancia().Find(profile.Id) == null)
             //    MongoDBDriver.CriarInstancia().Insert(profile);

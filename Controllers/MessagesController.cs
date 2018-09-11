@@ -32,7 +32,7 @@ namespace SimpleBot
 
             var message = new Message(userFromId, userFromName, text);
 
-            string response = SimpleBotUser.Reply(message);
+            string response = SimpleBotUser.Instancia().Reply(message);
 
             await ReplyUserAsync(activity, response);
         }
