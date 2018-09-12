@@ -7,9 +7,10 @@ namespace SimpleBot.Model
 {
     public class UserProfileSQLServerRepo : IUserProfileRepository
     {
+        private readonly string conn;
         public UserProfileSQLServerRepo(string connectionString)
         {
-
+            conn = connectionString;
         }
         public UserProfile GetProfile(string id)
         {
