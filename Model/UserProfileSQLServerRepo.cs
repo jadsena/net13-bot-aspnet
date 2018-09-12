@@ -13,13 +13,14 @@ namespace SimpleBot.Model
         }
         public UserProfile GetProfile(string id)
         {
+            return GetProfileSQLServer(id)?.ToUserProfile();
+        }
+
+        private UserProfileSQLServer GetProfileSQLServer(string id)
+        {
             using (var db = new DbChatBotContext())
             {
-                return db.UserProfile.FirstOrDefault(g => g.IdUsuario == id).ToUserProfile();
-                //if (db.UserProfile.Count(g => g.IdUsuario == id) > 0)
-                    //return db.UserProfile.SingleOrDefault(g => g.IdUsuario == id).ToUserProfile();
-                //else
-                //    return null;
+                return db.UserProfile.FirstOrDefault(g => g.IdUsuario == id);
             }
         }
 
@@ -27,10 +28,15 @@ namespace SimpleBot.Model
         {
             using (var db = new DbChatBotContext())
             {
-                if (GetProfile(profile.Id) == null)
+                UserProfileSQLServer profSQL = GetProfileSQLServer(profile.Id);
+                if (profSQL == null)
                     db.UserProfile.Add(UserProfileSQLServer.Parse(profile));
                 else
-                    db.UserProfile.Update(UserProfileSQLServer.Parse(profile));
+                {
+                    profSQL.Visitas = profile.Visitas;
+                    db.UserProfile.Update(profSQL);
+                }
+                db.SaveChanges();
             }
         }
     }
